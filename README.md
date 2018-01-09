@@ -4,6 +4,12 @@ Hopefully, this would lead to faster, more accurate, and easier to install face 
 
 ## Building from source
 
+Firstly, check out the repository:
+
+    git clone [GIT URL HERE]
+    cd rustface-py
+    git submodule update --init
+
 Requires Rust nightly, use rustup to install that.
 
 If you haven't got rustup, find installation instructions at https://www.rustup.rs/
