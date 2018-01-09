@@ -1,6 +1,7 @@
 *.pyc
 /venv
 /build
+/dist
 /.eggs
 /rustface.egg-info
 /rust/target
