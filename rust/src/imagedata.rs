@@ -26,6 +26,7 @@ unsafe fn free(ptr: *mut u8, count: usize) {
 
 #[no_mangle]
 pub unsafe extern "C" fn imagedata_create(bytes: *const c_char, width: u32, height: u32) -> *mut ImageDataWrapper {
+    // TODO (important!): Check the buffer is big enough
     // We need to copy the image data into our own buffer so we know that we can access it later
     let data_size = (width * height) as usize;
     let mut data = alloc(data_size);
