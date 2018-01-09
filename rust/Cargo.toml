@@ -13,3 +13,4 @@ cbindgen = "0.1"
 
 [dependencies]
 rustface = { path = "rustface" }
+libc = "0.2"

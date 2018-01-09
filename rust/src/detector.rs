@@ -7,6 +7,7 @@ use std::mem;
 use rustface::{self, Detector};
 
 use imagedata::ImageDataWrapper;
+use results::Results;
 
 // As the detector is a boxed trait, we need to wrap it with
 // another boxed object as boxed traits require two pointers
@@ -51,17 +52,18 @@ pub unsafe extern "C" fn detector_set_slide_window_step(detector: *mut DetectorW
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn detector_detect(detector: *mut DetectorWrapper, imagedata: *mut ImageDataWrapper) {
+pub unsafe extern "C" fn detector_detect(detector: *mut DetectorWrapper, imagedata: *mut ImageDataWrapper) -> *mut Results {
     let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
     let mut imagedata  = Box::<ImageDataWrapper>::from_raw(imagedata);
 
-    for face in detector.detector.detect(&mut imagedata.imagedata).into_iter() {
-        // print confidence score and coordinates
-        println!("found face: {:?}", face);
-    }
+    let results = Results {
+        results: detector.detector.detect(&mut imagedata.imagedata).into_iter().collect(),
+    };
 
     mem::forget(detector);
     mem::forget(imagedata);
+
+    Box::<Results>::into_raw(Box::new(results))
 }
 
 

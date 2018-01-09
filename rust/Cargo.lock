@@ -263,6 +263,7 @@ name = "rustface_bindings"
 version = "0.1.0"
 dependencies = [
  "cbindgen 0.1.30 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.35 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustface 0.1.0",
 ]
 

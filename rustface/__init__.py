@@ -11,6 +11,25 @@ class ImageData:
         _native.lib.imagedata_destroy(self._ptr)
 
 
+class Face:
+    def __init__(self, cface):
+        self.x = cface.x
+        self.y = cface.y
+        self.width = cface.width
+        self.height = cface.height
+
+
+class Results:
+    def __init__(self, ptr):
+        self._ptr = ptr
+
+    def __iter__(self):
+        count = _native.lib.results_get_count(self._ptr)
+
+        for i in range(count):
+            yield _native.lib.results_get(self._ptr, i)
+
+
 class Detector:
     def __init__(self):
         self._ptr = _native.lib.detector_create(os.path.join(os.path.dirname(__file__), 'model/seeta_fd_frontal_v1.0.bin').encode('UTF-8'))
@@ -28,15 +47,7 @@ class Detector:
         _native.lib.detector_set_slide_window_step(self._ptr, step_x, step_y)
 
     def detect(self, image):
-        _native.lib.detector_detect(self._ptr, image._ptr)
+        return Results(_native.lib.detector_detect(self._ptr, image._ptr))
 
     def __delete__(self):
         _native.lib.detector_destroy(self._ptr)
-
-
-def test():
-    detector = Detector()
-    detector.set_min_face_size(20)
-    detector.set_score_thresh(2.0)
-    detector.set_pyramid_scale_factor(0.8)
-    detector.set_slide_window_step(4, 4)
