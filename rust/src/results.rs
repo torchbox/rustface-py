@@ -23,7 +23,10 @@ pub struct Face {
 pub unsafe extern "C" fn results_get_count(results: *mut Results) -> usize {
     let results = Box::<Results>::from_raw(results);
     let count = results.results.len();
+
+    // Prevent deallocation
     mem::forget(results);
+
     count
 }
 
@@ -40,7 +43,10 @@ pub unsafe extern "C" fn results_get(results: *mut Results, id: usize) -> Face {
             height: bbox.height(),
         }
     };
+
+    // Prevent deallocation
     mem::forget(results);
+
     result
 }
 

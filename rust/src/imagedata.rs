@@ -26,8 +26,8 @@ unsafe fn free(ptr: *mut u8, count: usize) {
 
 #[no_mangle]
 pub unsafe extern "C" fn imagedata_create(bytes: *const c_char, width: u32, height: u32) -> *mut ImageDataWrapper {
-    // TODO (important!): Check the buffer is big enough
-    // We need to copy the image data into our own buffer so we know that we can access it later
+    // We need to copy the image data into our own buffer so that we can access it later
+    // It's up to the caller to make sure that the buffer is at least `width * height` bytes in size
     let data_size = (width * height) as usize;
     let mut data = alloc(data_size);
     libc::memcpy(data as *mut libc::c_void, bytes as *const libc::c_void, data_size);
@@ -39,5 +39,7 @@ pub unsafe extern "C" fn imagedata_create(bytes: *const c_char, width: u32, heig
 #[no_mangle]
 pub unsafe extern "C" fn imagedata_destroy(imagedata: *mut ImageDataWrapper) {
     let imagedata = Box::<ImageDataWrapper>::from_raw(imagedata);
+
+    // Free pixel data
     free(imagedata.data, imagedata.data_size);
 }

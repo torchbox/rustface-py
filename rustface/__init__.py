@@ -5,6 +5,10 @@ from . import _native
 
 class ImageData:
     def __init__(self, buffer, width, height):
+        # Buffer must be exactly width * height bytes in size
+        if len(buffer) != width * height:
+            raise Exception("Incorrect buffer size. Expected {} bytes. Got {} bytes", width * height, len(buffer))
+
         self._ptr = _native.lib.imagedata_create(buffer, width, height)
 
     def __delete__(self):

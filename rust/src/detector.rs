@@ -26,28 +26,40 @@ pub unsafe extern "C" fn detector_create(model_filename: *const c_char) -> *mut 
 #[no_mangle]
 pub unsafe extern "C" fn detector_set_min_face_size(detector: *mut DetectorWrapper, min_face_size: u32) {
     let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
+
     detector.detector.set_min_face_size(min_face_size);
+
+    // Prevent deallocation
     mem::forget(detector);
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn detector_set_score_thresh(detector: *mut DetectorWrapper, thresh: f64) {
     let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
+
     detector.detector.set_score_thresh(thresh);
+
+    // Prevent deallocation
     mem::forget(detector);
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn detector_set_pyramid_scale_factor(detector: *mut DetectorWrapper, scale_factor: f32) {
     let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
+
     detector.detector.set_pyramid_scale_factor(scale_factor);
+
+    // Prevent deallocation
     mem::forget(detector);
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn detector_set_slide_window_step(detector: *mut DetectorWrapper, step_x: u32, step_y: u32) {
     let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
+
     detector.detector.set_slide_window_step(step_x, step_y);
+
+    // Prevent deallocation
     mem::forget(detector);
 }
 
@@ -60,9 +72,11 @@ pub unsafe extern "C" fn detector_detect(detector: *mut DetectorWrapper, imageda
         results: detector.detector.detect(&mut imagedata.imagedata).into_iter().collect(),
     };
 
+    // Prevent deallocation
     mem::forget(detector);
     mem::forget(imagedata);
 
+    // Return pointer to box
     Box::<Results>::into_raw(Box::new(results))
 }
 
