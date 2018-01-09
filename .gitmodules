@@ -1,3 +1,3 @@
 [submodule "rustface"]
-	path = rustface
+	path = rust/rustface
 	url = https://github.com/atomashpolskiy/rustface

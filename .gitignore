@@ -1,0 +1,7 @@
+*.pyc
+/venv
+/build
+/.eggs
+/rustface.egg-info
+/rust/target
+/rustface/_native*

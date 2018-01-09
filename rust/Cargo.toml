@@ -1,0 +1,14 @@
+[package]
+name = "rustface_bindings"
+version = "0.1.0"
+authors = ["Karl Hobley <karl@kaed.uk>"]
+build = "build.rs"
+
+[lib]
+name = "rustface"
+crate-type = ["cdylib"]
+
+[build-dependencies]
+cbindgen = "0.1"
+
+[dependencies]
