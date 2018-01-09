@@ -29,6 +29,9 @@ class Results:
         for i in range(count):
             yield _native.lib.results_get(self._ptr, i)
 
+    def __delete__(self):
+        _native.lib.results_destroy(self._ptr)
+
 
 class Detector:
     def __init__(self):
