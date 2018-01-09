@@ -3,6 +3,14 @@ import os
 from . import _native
 
 
+class ImageData:
+    def __init__(self, buffer, width, height):
+        self._ptr = _native.lib.imagedata_create(buffer, width, height)
+
+    def __delete__(self):
+        _native.lib.imagedata_destroy(self._ptr)
+
+
 class Detector:
     def __init__(self):
         self._ptr = _native.lib.detector_create(os.path.join(os.path.dirname(__file__), 'model/seeta_fd_frontal_v1.0.bin').encode('UTF-8'))
@@ -18,6 +26,9 @@ class Detector:
 
     def set_slide_window_step(self, step_x, step_y):
         _native.lib.detector_set_slide_window_step(self._ptr, step_x, step_y)
+
+    def detect(self, image):
+        _native.lib.detector_detect(self._ptr, image._ptr)
 
     def __delete__(self):
         _native.lib.detector_destroy(self._ptr)

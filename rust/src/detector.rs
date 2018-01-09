@@ -1,17 +1,17 @@
-extern crate rustface;
-
 use std::ffi::CStr;
 use std::os::raw::{c_char, c_void};
 use std::borrow::Borrow;
 use std::boxed::Box;
 use std::mem;
 
-use rustface::{Detector, FaceInfo, ImageData};
+use rustface::{self, Detector};
+
+use imagedata::ImageDataWrapper;
 
 // As the detector is a boxed trait, we need to wrap it with
 // another boxed object as boxed traits require two pointers
 pub struct DetectorWrapper {
-    detector: Box::<Detector>,
+    pub detector: Box::<rustface::Detector>,
 }
 
 #[no_mangle]
@@ -49,6 +49,21 @@ pub unsafe extern "C" fn detector_set_slide_window_step(detector: *mut DetectorW
     detector.detector.set_slide_window_step(step_x, step_y);
     mem::forget(detector);
 }
+
+#[no_mangle]
+pub unsafe extern "C" fn detector_detect(detector: *mut DetectorWrapper, imagedata: *mut ImageDataWrapper) {
+    let mut detector  = Box::<DetectorWrapper>::from_raw(detector);
+    let mut imagedata  = Box::<ImageDataWrapper>::from_raw(imagedata);
+
+    for face in detector.detector.detect(&mut imagedata.imagedata).into_iter() {
+        // print confidence score and coordinates
+        println!("found face: {:?}", face);
+    }
+
+    mem::forget(detector);
+    mem::forget(imagedata);
+}
+
 
 #[no_mangle]
 pub unsafe extern "C" fn detector_destroy(detector: *mut DetectorWrapper) {
