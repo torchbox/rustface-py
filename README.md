@@ -1,7 +1,5 @@
 # Rustface bindings for Python
 
-**Early work in progress**
-
 Hopefully, this would lead to faster, more accurate, and easier to install face detection in Wagtail!
 
 ## Building from source
@@ -22,3 +20,18 @@ Install libffi and python3 headers and wheel:
 Build package:
 
     python3 setup.py bdist_wheel
+
+
+## Usage with Willow/Wagtail
+
+This provides a Willow plugin that can be installed with the following code:
+
+    from willow.registry import registry
+    import rustface.willow
+
+    registry.register_plugin(rustface.willow)
+    
+(put this somewhere where it will run on startup)
+
+It provides the ``detect_faces`` operation that is usually provided by OpenCV
+so you can use it as a drop-in replacement for that.
