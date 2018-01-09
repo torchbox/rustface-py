@@ -12,3 +12,4 @@ crate-type = ["cdylib"]
 cbindgen = "0.1"
 
 [dependencies]
+rustface = { path = "rustface" }
