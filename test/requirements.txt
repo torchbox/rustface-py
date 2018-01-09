@@ -1,0 +1,2 @@
+Pillow==5.0.0
+Willow==1.1
