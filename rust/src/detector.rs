@@ -47,7 +47,6 @@ pub unsafe extern "C" fn detector_detect(detector: *mut DetectorWrapper, imageda
     Box::<Results>::into_raw(Box::new(results))
 }
 
-
 #[no_mangle]
 pub unsafe extern "C" fn detector_destroy(detector: *mut DetectorWrapper) {
     Box::<DetectorWrapper>::from_raw(detector);
