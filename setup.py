@@ -1,4 +1,5 @@
-from setuptools import setup
+from setuptools import setup, find_packages
+from glob import glob
 
 def build_native(spec):
     # build an example rust library
@@ -16,7 +17,11 @@ def build_native(spec):
 setup(
     name='rustface',
     version='0.0.1',
-    packages=['rustface'],
+    packages=find_packages('rustface'),
+    include_package_data=True,
+    data_files=[
+        ('model', glob('rustface/model/*.bin')),
+    ],
     zip_safe=False,
     platforms='any',
     setup_requires=['milksnake'],
