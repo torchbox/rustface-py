@@ -1,10 +1,7 @@
-use std::ffi::CStr;
-use std::os::raw::{c_char, c_void};
-use std::borrow::Borrow;
+use std::os::raw::c_char;
 use std::boxed::Box;
-use std::mem;
 
-use rustface::{self, Detector, FuStDetector};
+use rustface::{self, FuStDetector};
 use rustface::model::ModelReader;
 use libc;
 

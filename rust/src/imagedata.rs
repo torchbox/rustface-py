@@ -1,11 +1,9 @@
-use std::ffi::CStr;
-use std::os::raw::{c_char, c_void};
-use std::borrow::Borrow;
+use std::os::raw::c_char;
 use std::boxed::Box;
 use std::mem;
 
 use libc;
-use rustface::{Detector, FaceInfo, ImageData};
+use rustface::ImageData;
 
 pub struct ImageDataWrapper {
     pub data: *mut u8,
@@ -29,7 +27,7 @@ pub unsafe extern "C" fn imagedata_create(bytes: *const c_char, width: u32, heig
     // We need to copy the image data into our own buffer so that we can access it later
     // It's up to the caller to make sure that the buffer is at least `width * height` bytes in size
     let data_size = (width * height) as usize;
-    let mut data = alloc(data_size);
+    let data = alloc(data_size);
     libc::memcpy(data as *mut libc::c_void, bytes as *const libc::c_void, data_size);
 
     let imagedata = ImageData::new(data as *const u8, width, height);

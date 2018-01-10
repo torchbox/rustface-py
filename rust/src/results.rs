@@ -1,11 +1,6 @@
-use std::ffi::CStr;
-use std::os::raw::{c_char, c_void};
-use std::borrow::Borrow;
 use std::boxed::Box;
-use std::mem;
 
-use libc;
-use rustface::{Detector, FaceInfo, ImageData};
+use rustface::FaceInfo;
 
 pub type Results = Vec<FaceInfo>;
 
