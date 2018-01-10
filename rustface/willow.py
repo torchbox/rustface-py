@@ -1,3 +1,5 @@
+from __future__ import unicode_literals, absolute_import
+
 from willow.image import Image, ImageBuffer
 from willow.plugins.pillow import PillowImage
 from rustface import Detector, ImageData
@@ -7,8 +9,9 @@ class RustFaceImage(Image):
     def __init__(self, imagedata):
         self.imagedata = imagedata
 
+    @classmethod
     @Image.converter_from(PillowImage)
-    def from_pillow(image):
+    def from_pillow(cls, image):
         return RustFaceImage(ImageData.from_pillow_image(image.image))
 
     @Image.operation

@@ -1,9 +1,11 @@
+from __future__ import unicode_literals, absolute_import
+
 import os
 
 from . import _native
 
 
-class ImageData:
+class ImageData(object):
     def __init__(self, buffer, width, height):
         # Buffer must be exactly width * height bytes in size
         if len(buffer) != width * height:
@@ -21,7 +23,7 @@ class ImageData:
         _native.lib.imagedata_destroy(self._ptr)
 
 
-class Face:
+class Face(object):
     def __init__(self, cface):
         self.x = cface.x
         self.y = cface.y
@@ -34,7 +36,7 @@ class Face:
         )
 
 
-class Results:
+class Results(object):
     def __init__(self, ptr):
         self._ptr = ptr
 
@@ -48,7 +50,7 @@ class Results:
         _native.lib.results_destroy(self._ptr)
 
 
-class Detector:
+class Detector(object):
     def __init__(self):
         with open(os.path.join(os.path.dirname(__file__), 'seeta_fd_frontal_v1.0.py'), 'rb') as f:
             buf = f.read()
