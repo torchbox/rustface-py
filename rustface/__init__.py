@@ -11,6 +11,12 @@ class ImageData:
 
         self._ptr = _native.lib.imagedata_create(buffer, width, height)
 
+    @classmethod
+    def from_pillow_image(self, image):
+        greyscale_image = image.convert('L')
+
+        return ImageData(greyscale_image.tobytes(), *greyscale_image.size)
+
     def __delete__(self):
         _native.lib.imagedata_destroy(self._ptr)
 

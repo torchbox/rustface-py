@@ -3,22 +3,13 @@ from willow.plugins.pillow import PillowImage
 from rustface import Detector, ImageData
 
 
-class GreyScaleImageBuffer(ImageBuffer):
-    @Image.converter_from(PillowImage)
-    def from_pillow(pillow):
-        greyscale_image = pillow.image.convert('L')
-        return GreyScaleImageBuffer(greyscale_image.size, greyscale_image.tobytes())
-
-    # TODO: Converter for wand
-
-
 class RustFaceImage(Image):
     def __init__(self, imagedata):
         self.imagedata = imagedata
 
-    @Image.converter_from(GreyScaleImageBuffer)
-    def from_greyscale_image(gs_image):
-        return RustFaceImage(ImageData(gs_image.data, *gs_image.size))
+    @Image.converter_from(PillowImage)
+    def from_pillow(image):
+        return RustFaceImage(ImageData.from_pillow_image(image.image))
 
     @Image.operation
     def detect_faces(self):
@@ -37,4 +28,4 @@ class RustFaceImage(Image):
     def detect_features(self):
         return []
 
-willow_image_classes = [GreyScaleImageBuffer, RustFaceImage]
+willow_image_classes = [RustFaceImage]
