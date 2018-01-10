@@ -2,6 +2,10 @@
 
 Fast, accurate and easy to install face detection for Python!
 
+This module contains bindings to [Rustface](https://github.com/atomashpolskiy/rustface),
+a face detection library written in [Rust](https://www.rust-lang.org/) that was derived
+from [SeetaFace](https://github.com/seetaface/SeetaFaceEngine).
+
 ## Installation
 
 Install with pip, wheel files are provided for Linux and macOS:
@@ -13,16 +17,21 @@ Install with pip, wheel files are provided for Linux and macOS:
     from PIL import Image
     from rustface import ImageData, Detector
 
-    image = Image.open('foo.jpg')
+    image = Image.open('image.jpg')
     imagedata = ImageData.from_pillow_image(image)
+
     detector = Detector()
+    detector.set_min_face_size(20)
+    detector.set_score_thresh(2.0)
+    detector.set_pyramid_scale_factor(0.8)
+    detector.set_slide_window_step(4, 4)
 
     for face in detector.detect(imagedata):
         print(face.x, face.y, face.width, face.height)
 
 ## Usage with Willow/Wagtail
 
-This provides a Willow plugin that can be installed with the following code:
+This provides a [Willow](https://github.com/wagtail/Willow) plugin that can be installed with the following code:
 
     from willow.registry import registry
     import rustface.willow
@@ -31,24 +40,25 @@ This provides a Willow plugin that can be installed with the following code:
 
 (put this somewhere where it will run on startup)
 
-It provides the ``detect_faces`` operation that is usually provided by OpenCV
-so you can use it as a drop-in replacement for that.
+To use this in Wagtail CMS, install the Willow plugin as per above and add the following into your project settings:
+
+    WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = True
 
 ## Building from source
 
-Install libffi and python3 headers and wheel. The following command installs these on Ubuntu:
+Install libffi, python3 headers, setuptools and wheel. The following command will install these on Ubuntu:
 
     apt-get install libffi-dev python3-dev python3-setuptools python3-wheel
 
 Check out the repository:
 
-    git clone [GIT URL HERE]
+    git clone git@github.com:torchbox/rustface-py.git
     cd rustface-py
     git submodule update --init
 
-In order to compile the Rust code, you need to have Rust nightly toolchain installed and enabled.
+In order to compile the Rust code, you'll need to have Rust nightly toolchain installed and enabled.
 
-Use rustup to set this up, if you have got it already find installation instructions at https://www.rustup.rs/
+Use rustup to set this up, find installation instructions for rustup at https://www.rustup.rs/
 
 To use Rust nightly, run the following commands in the project root:
 
@@ -58,3 +68,7 @@ To use Rust nightly, run the following commands in the project root:
 Now you can build the package:
 
     python3 setup.py bdist_wheel
+
+## License
+
+These bindings, [Rustface](https://github.com/atomashpolskiy/rustface/blob/master/LICENSE) and [SeetaFace](https://github.com/seetaface/SeetaFaceEngine/blob/master/LICENSE) are all released under the BSD 2-Clause license.
