@@ -14,35 +14,41 @@ Install with pip, wheel files are provided for Linux and macOS:
 
 ## Pillow usage example
 
-    from PIL import Image
-    from rustface import ImageData, Detector
+```python
+from PIL import Image
+from rustface import ImageData, Detector
 
-    image = Image.open('image.jpg')
-    imagedata = ImageData.from_pillow_image(image)
+image = Image.open('image.jpg')
+imagedata = ImageData.from_pillow_image(image)
 
-    detector = Detector()
-    detector.set_min_face_size(20)
-    detector.set_score_thresh(2.0)
-    detector.set_pyramid_scale_factor(0.8)
-    detector.set_slide_window_step(4, 4)
+detector = Detector()
+detector.set_min_face_size(20)
+detector.set_score_thresh(2.0)
+detector.set_pyramid_scale_factor(0.8)
+detector.set_slide_window_step(4, 4)
 
-    for face in detector.detect(imagedata):
-        print(face.x, face.y, face.width, face.height)
+for face in detector.detect(imagedata):
+    print(face.x, face.y, face.width, face.height)
+```
 
 ## Usage with Willow/Wagtail
 
 This provides a [Willow](https://github.com/wagtail/Willow) plugin that can be installed with the following code:
 
-    from willow.registry import registry
-    import rustface.willow
+```python
+from willow.registry import registry
+import rustface.willow
 
-    registry.register_plugin(rustface.willow)
+registry.register_plugin(rustface.willow)
+```
 
 (put this somewhere where it will run on startup)
 
 To use this in Wagtail CMS, install the Willow plugin as per above and add the following into your project settings:
 
-    WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = True
+```python
+WAGTAILIMAGES_FEATURE_DETECTION_ENABLED = True
+```
 
 ## Building from source
 
