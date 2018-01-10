@@ -28,6 +28,11 @@ class Face:
         self.width = cface.width
         self.height = cface.height
 
+    def __repr__(self):
+        return '<Face x:{} y:{} size:{}x{}>'.format(
+            self.x, self.y, self.width, self.height
+        )
+
 
 class Results:
     def __init__(self, ptr):
@@ -37,7 +42,7 @@ class Results:
         count = _native.lib.results_get_count(self._ptr)
 
         for i in range(count):
-            yield _native.lib.results_get(self._ptr, i)
+            yield Face(_native.lib.results_get(self._ptr, i))
 
     def __delete__(self):
         _native.lib.results_destroy(self._ptr)
