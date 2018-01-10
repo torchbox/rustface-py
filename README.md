@@ -1,32 +1,24 @@
 # Rustface bindings for Python
 
-Hopefully, this would lead to faster, more accurate, and easier to install face detection in Wagtail!
+Fast, accurate and easy to install face detection for Python!
 
-## Building from source
+## Installation
 
-Firstly, check out the repository:
+Install with pip, wheel files are provided for Linux and macOS:
 
-    git clone [GIT URL HERE]
-    cd rustface-py
-    git submodule update --init
+    pip install rustface
 
-Requires Rust nightly, use rustup to install that.
+## Pillow usage example
 
-If you haven't got rustup, find installation instructions at https://www.rustup.rs/
+    from PIL import Image
+    from rustface import ImageData, Detector
 
-To use Rust nightly, run the following in the project folder
+    image = Image.open('foo.jpg')
+    imagedata = ImageData.from_pillow_image(image)
+    detector = Detector()
 
-    rustup update nightly
-    rustup override add nightly
-
-Install libffi and python3 headers and wheel:
-
-    apt-get install libffi-dev python3-dev python3-setuptools python3-wheel
-    
-Build package:
-
-    python3 setup.py bdist_wheel
-
+    for face in detector.detect(imagedata):
+        print(face.x, face.y, face.width, face.height)
 
 ## Usage with Willow/Wagtail
 
@@ -36,8 +28,33 @@ This provides a Willow plugin that can be installed with the following code:
     import rustface.willow
 
     registry.register_plugin(rustface.willow)
-    
+
 (put this somewhere where it will run on startup)
 
 It provides the ``detect_faces`` operation that is usually provided by OpenCV
 so you can use it as a drop-in replacement for that.
+
+## Building from source
+
+Install libffi and python3 headers and wheel. The following command installs these on Ubuntu:
+
+    apt-get install libffi-dev python3-dev python3-setuptools python3-wheel
+
+Check out the repository:
+
+    git clone [GIT URL HERE]
+    cd rustface-py
+    git submodule update --init
+
+In order to compile the Rust code, you need to have Rust nightly toolchain installed and enabled.
+
+Use rustup to set this up, if you have got it already find installation instructions at https://www.rustup.rs/
+
+To use Rust nightly, run the following commands in the project root:
+
+    rustup update nightly
+    rustup override add nightly
+
+Now you can build the package:
+
+    python3 setup.py bdist_wheel
