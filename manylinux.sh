@@ -5,7 +5,7 @@ set -e
 yum -y -q -e 0 install gcc libffi-devel
 
 # Install Rust
-curl https://sh.rustup.rs -sSf | sh -s -- -y
+curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly-2018-01-02
 export PATH=~/.cargo/bin:$PATH
 
 # Build wheels
