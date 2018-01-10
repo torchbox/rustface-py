@@ -25,10 +25,10 @@ class RustFaceImage(Image):
         detector = Detector()
         faces = detector.detect(self.imagedata)
 
-        return [(face.x - face.width / 2,
-                 face.y - face.height / 2,
-                 face.x + face.width / 2,
-                 face.y + face.height / 2,
+        return [(face.x,
+                 face.y,
+                 face.x + face.width,
+                 face.y + face.height,
                 ) for face in faces]
 
 willow_image_classes = [GreyScaleImageBuffer, RustFaceImage]
