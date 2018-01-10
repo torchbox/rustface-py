@@ -1,4 +1,7 @@
 language: rust
+rust:
+ - nightly-2018-01-02
+
 dist: trusty
 osx_version: xcode7.3
 
@@ -50,5 +53,3 @@ notifications:
     on_start: always
     on_cancel: always
     on_error: always
-
-#bump again
