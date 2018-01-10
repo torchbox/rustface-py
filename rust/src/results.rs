@@ -7,9 +7,7 @@ use std::mem;
 use libc;
 use rustface::{Detector, FaceInfo, ImageData};
 
-pub struct Results {
-    pub results: Vec<FaceInfo>,
-}
+pub type Results = Vec<FaceInfo>;
 
 #[repr(C)]
 pub struct Face {
@@ -21,33 +19,19 @@ pub struct Face {
 
 #[no_mangle]
 pub unsafe extern "C" fn results_get_count(results: *mut Results) -> usize {
-    let results = Box::<Results>::from_raw(results);
-    let count = results.results.len();
-
-    // Prevent deallocation
-    mem::forget(results);
-
-    count
+    (*results).len()
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn results_get(results: *mut Results, id: usize) -> Face {
-    let results = Box::<Results>::from_raw(results);
-    let result = {
-        let bbox = results.results[id].bbox();
+    let bbox = (*results)[id].bbox();
 
-        Face {
-            x: bbox.x(),
-            y: bbox.y(),
-            width: bbox.width(),
-            height: bbox.height(),
-        }
-    };
-
-    // Prevent deallocation
-    mem::forget(results);
-
-    result
+    Face {
+        x: bbox.x(),
+        y: bbox.y(),
+        width: bbox.width(),
+        height: bbox.height(),
+    }
 }
 
 #[no_mangle]
