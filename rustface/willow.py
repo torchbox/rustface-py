@@ -31,4 +31,10 @@ class RustFaceImage(Image):
                  face.y + face.height,
                 ) for face in faces]
 
+    # Prevent Wagtail from crashing if OpenCV is not installed
+    # (when Wagtail feature detection is enabled it expects both methods to be implemented)
+    @Image.operation
+    def detect_features(self):
+        return []
+
 willow_image_classes = [GreyScaleImageBuffer, RustFaceImage]
