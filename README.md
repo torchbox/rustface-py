@@ -3,7 +3,7 @@
 Fast, accurate and easy to install face detection for Python!
 
 This module contains bindings to [Rustface](https://github.com/atomashpolskiy/rustface),
-a face detection library written in [Rust](https://www.rust-lang.org/) that was derived
+a face detection library written in [Rust](https://www.rust-lang.org/) which is derived
 from [SeetaFace](https://github.com/seetaface/SeetaFaceEngine).
 
 ## Installation
