@@ -17,11 +17,7 @@ def build_native(spec):
 setup(
     name='rustface',
     version='0.0.1',
-    packages=find_packages('rustface'),
-    include_package_data=True,
-    data_files=[
-        ('model', glob('rustface/model/*.bin')),
-    ],
+    packages=find_packages(),
     zip_safe=False,
     platforms='any',
     setup_requires=['milksnake'],

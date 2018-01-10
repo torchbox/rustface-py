@@ -3,4 +3,3 @@ global-exclude __pycache__
 global-exclude *.py[co]
 global-exclude *.swp
 include LICENSE
-include rustface/model/seeta_fd_frontal_v1.0.bin

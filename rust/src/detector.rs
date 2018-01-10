@@ -4,7 +4,9 @@ use std::borrow::Borrow;
 use std::boxed::Box;
 use std::mem;
 
-use rustface::{self, Detector};
+use rustface::{self, Detector, FuStDetector};
+use rustface::model::ModelReader;
+use libc;
 
 use imagedata::ImageDataWrapper;
 use results::Results;
@@ -14,10 +16,17 @@ use results::Results;
 type DetectorWrapper = Box<Box<rustface::Detector>>;
 
 #[no_mangle]
-pub unsafe extern "C" fn detector_create(model_filename: *const c_char) -> *mut DetectorWrapper {
-    let model_filename = CStr::from_ptr(model_filename);
+pub unsafe extern "C" fn detector_create(model_data: *const c_char, model_data_len: usize) -> *mut DetectorWrapper {
+    // Copy model data into our own buffer
+    let mut buf = Vec::with_capacity(model_data_len);
+    libc::memcpy(buf.as_ptr() as *mut libc::c_void, model_data as *const libc::c_void, model_data_len);
+    buf.set_len(model_data_len);
 
-    let detector = rustface::create_detector(model_filename.to_string_lossy().borrow()).unwrap();
+    // Create model
+    let model = ModelReader::new(buf).read().unwrap();
+
+    // Create detector
+    let detector = Box::new(FuStDetector::new(model));
     Box::into_raw(Box::new(Box::new(detector)))
 }
 

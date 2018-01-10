@@ -39,7 +39,9 @@ class Results:
 
 class Detector:
     def __init__(self):
-        self._ptr = _native.lib.detector_create(os.path.join(os.path.dirname(__file__), 'model/seeta_fd_frontal_v1.0.bin').encode('UTF-8'))
+        with open(os.path.join(os.path.dirname(__file__), 'seeta_fd_frontal_v1.0.py'), 'rb') as f:
+            buf = f.read()
+        self._ptr = _native.lib.detector_create(buf, len(buf))
 
     def set_min_face_size(self, face_size):
         _native.lib.detector_set_min_face_size(self._ptr, face_size)
