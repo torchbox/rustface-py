@@ -1,3 +1,0 @@
-[submodule "rustface"]
-	path = rust/rustface
-	url = https://github.com/kaedroho/rustface

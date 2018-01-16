@@ -64,7 +64,6 @@ Check out the repository:
 
     git clone git@github.com:torchbox/rustface-py.git
     cd rustface-py
-    git submodule update --init
 
 In order to compile the Rust code, you'll need to have Rust nightly toolchain installed and enabled.
 

@@ -12,5 +12,5 @@ crate-type = ["cdylib"]
 cbindgen = "0.1"
 
 [dependencies]
-rustface = { path = "rustface" }
+rustface = "0.1"
 libc = "0.2"

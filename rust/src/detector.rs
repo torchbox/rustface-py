@@ -1,8 +1,8 @@
 use std::os::raw::c_char;
 use std::boxed::Box;
 
-use rustface::{self, FuStDetector};
-use rustface::model::ModelReader;
+use rustface::{self, create_detector_with_model};
+use rustface::model::read_model;
 use libc;
 
 use imagedata::ImageDataWrapper;
@@ -20,10 +20,10 @@ pub unsafe extern "C" fn detector_create(model_data: *const c_char, model_data_l
     buf.set_len(model_data_len);
 
     // Create model
-    let model = ModelReader::new(buf).read().unwrap();
+    let model = read_model(buf).unwrap();
 
     // Create detector
-    let detector = Box::new(FuStDetector::new(model));
+    let detector = create_detector_with_model(model);
     Box::into_raw(Box::new(Box::new(detector)))
 }
 
