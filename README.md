@@ -4,7 +4,7 @@ Face detection library for Python.
 
  * **Fast** - Implemented in Rust, which is [pretty fast](https://benchmarksgame.alioth.debian.org/u64q/rust.html)
  * **Accurate** - Implements a funnel-structured (FuSt) cascade schema for real-time multi-view face detection
- * **Easy to install** - [PEP 513 compliant](https://www.python.org/dev/peps/pep-0513/), prebuilt wheel files provided for Linux and macOS. The entire algorithm is implemented inside this single package with no dependency on OpenCV or numpy
+ * **Easy to install** - [PEP 513 compliant](https://www.python.org/dev/peps/pep-0513/), prebuilt wheel files provided for Linux and macOS. The entire algorithm is implemented inside this single <2MB package with no dependency on OpenCV or numpy
 
 This module contains bindings to [Rustface](https://github.com/atomashpolskiy/rustface),
 a face detection library written in [Rust](https://www.rust-lang.org/) which is derived
