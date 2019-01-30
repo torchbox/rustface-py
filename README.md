@@ -14,6 +14,7 @@ from [SeetaFace](https://github.com/seetaface/SeetaFaceEngine).
 
 Install with pip, wheel files are provided for Linux and macOS:
 
+    pip install wheel
     pip install rustface
 
 ## Pillow usage example
